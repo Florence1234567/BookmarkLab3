@@ -33,35 +33,35 @@ export default class Repository {
     read() {
         this.objectsList = null;
         if (this.cached) {
-          this.objectsList = RepositoryCachesManager.find(this.objectsName);
+            this.objectsList = RepositoryCachesManager.find(this.objectsName);
         }
         if (this.objectsList == null) {
-          try {
-            let rawdata = fs.readFileSync(this.objectsFile);
-            // we assume here that the json data is formatted correctly
-            this.objectsList = JSON.parse(rawdata);
-            if (this.cached)
-              RepositoryCachesManager.add(this.objectsName, this.objectsList);
-          } catch (error) {
-            if (error.code === 'ENOENT') {
-              // file does not exist, it will be created on demand
-              log(FgYellow,`Warning ${this.objectsName} repository does not exist. It will be created on demand`);
-              this.objectsList = [];
-            } else {
-              log(FgRed,`Error while reading ${this.objectsName} repository`);
-              log(FgRed,'--------------------------------------------------');
-              log(FgRed,error);
+            try {
+                let rawdata = fs.readFileSync(this.objectsFile);
+                // we assume here that the json data is formatted correctly
+                this.objectsList = JSON.parse(rawdata);
+                if (this.cached)
+                    RepositoryCachesManager.add(this.objectsName, this.objectsList);
+            } catch (error) {
+                if (error.code === 'ENOENT') {
+                    // file does not exist, it will be created on demand
+                    log(FgYellow, `Warning ${this.objectsName} repository does not exist. It will be created on demand`);
+                    this.objectsList = [];
+                } else {
+                    log(FgRed, `Error while reading ${this.objectsName} repository`);
+                    log(FgRed, '--------------------------------------------------');
+                    log(FgRed, error);
+                }
             }
-          }
         }
-      }
-      write() {
+    }
+    write() {
         this.newETag();
         fs.writeFileSync(this.objectsFile, JSON.stringify(this.objectsList));
         if (this.cached) {
-          RepositoryCachesManager.add(this.objectsName, this.objectsList);
+            RepositoryCachesManager.add(this.objectsName, this.objectsList);
         }
-      }
+    }
     nextId() {
         let maxId = 0;
         for (let object of this.objects()) {
@@ -130,9 +130,9 @@ export default class Repository {
         return false;
     }
     getAll() {
-        const urlParams = this.HttpContext.path.params;
-        console.log(urlParams);
-        let objectsList = this.objects();
+        // Todo Labo 4
+        let collectionFilter = new CollectionFilter(this.objects(), params, this.model);
+        let objectsList = collectionFilter.get();
         let bindedDatas = [];
         if (objectsList)
             for (let data of objectsList) {
