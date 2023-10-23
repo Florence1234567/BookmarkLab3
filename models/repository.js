@@ -130,6 +130,8 @@ export default class Repository {
         return false;
     }
     getAll() {
+        const urlParams = this.HttpContext.path.params;
+        console.log(urlParams);
         let objectsList = this.objects();
         let bindedDatas = [];
         if (objectsList)

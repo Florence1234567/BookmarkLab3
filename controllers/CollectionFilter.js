@@ -14,15 +14,13 @@ export default class CollectionFilter extends Controller {
             return;
         }
 
-        let Bookmarks = await Bookmarks_API.Get();
-
-        Sort(selectedCategory) {
+        /*Sort(selectedCategory) {
             if (Bookmarks !== null) {
                 Bookmarks.forEach(Bookmark => {
                     if (selectedCategory === Bookmark.Category)
                     this.HttpContext.response.HTML({Bookmark});
                 });
             }  
-        }
+        }*/
     }
 }
